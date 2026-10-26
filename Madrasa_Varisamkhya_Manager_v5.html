@@ -1,0 +1,237 @@
+<!doctype html><html lang="ml"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>മദ്റസ വരിസംഖ്യ മാനേജർ — പുതുക്കിയ പതിപ്പ്</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f3f7f4;color:#17221b;font:700 16px Arial,"Noto Sans Malayalam",sans-serif}header{background:#126238;color:#fff;padding:18px 14px;position:sticky;top:0;z-index:4}h1{font-size:24px;margin:0}.wrap{max-width:1150px;margin:auto;padding:12px}.tabs{display:flex;gap:7px;overflow:auto;margin-bottom:12px}.tabs button,button{font:700 16px Arial,"Noto Sans Malayalam";padding:11px 13px;border:0;border-radius:9px;background:#176b3a;color:#fff}.active{background:#0b482b!important}.secondary{background:#e2ece6!important;color:#173b28!important}.danger{background:#b42318!important}.card{background:#fff;border:1px solid #d4dfd8;border-radius:13px;padding:15px;margin-bottom:13px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:11px}label{display:block}input,select,textarea{width:100%;margin-top:5px;padding:10px;border:1px solid #bdc9c1;border-radius:8px;background:#fff;font:700 16px Arial,"Noto Sans Malayalam"}textarea{min-height:75px}.full{grid-column:1/-1}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.hidden{display:none!important}.scroll{overflow:auto}table{width:100%;border-collapse:collapse}th,td{padding:9px;border-bottom:1px solid #d7e0da;text-align:left;white-space:nowrap}th{background:#edf4ef}.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.kpi{background:#eaf4ed;border-radius:11px;padding:13px}.kpi b{display:block;font-size:22px;color:#0e5130}.ok{color:#087a3c;background:#e4f5ea;padding:5px 9px;border-radius:20px}.no{color:#b42318;background:#fde8e7;padding:5px 9px;border-radius:20px}.notice{background:#fff7d6;border:1px solid #e9d37a;border-radius:9px;padding:10px}.breakdown{background:#eef8f1;border:1px solid #b9d8c2;border-radius:10px;padding:12px;margin-top:10px;line-height:1.8}.breakdown b{color:#0b6b3a}.small{font-size:14px}.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#17221b;color:#fff;padding:11px 16px;border-radius:9px;display:none;z-index:20}.modal{position:fixed;inset:0;background:#0007;display:grid;place-items:center;z-index:30;padding:18px}.modal .card{width:min(430px,100%)}.print-title{display:none;text-align:center}@media(max-width:760px){.grid{grid-template-columns:1fr 1fr}.kpis{grid-template-columns:1fr 1fr}}@media(max-width:480px){.grid,.grid2{grid-template-columns:1fr}header h1{font-size:22px}}@media print{header,.tabs,.no-print,button{display:none!important}.card{border:0;box-shadow:none}.print-title{display:block}.page{display:block!important}}
+</style></head><body>
+<div id="login" class="modal"><div class="card"><h2 style="color:#126238;text-align:center">🕌 മദ്റസ വരിസംഖ്യ മാനേജർ</h2><p>ആപ്പ് തുറക്കാൻ പാസ്‌വേഡ്</p><input id="lp" type="password" placeholder="പാസ്‌വേഡ്"><div class="actions"><button onclick="login()">തുറക്കുക</button></div><p>ആദ്യ പാസ്‌വേഡ്: <b>1234</b></p></div></div>
+<div id="app" class="hidden"><header><h1 id="title">🕌 മദ്റസ വരിസംഖ്യ മാനേജർ</h1><div id="sub"></div></header><main class="wrap">
+<div class="tabs no-print"><button class="active" onclick="tab('dash',this)">🏠 ഡാഷ്ബോർഡ്</button><button onclick="tab('students',this)">👦 കുട്ടികൾ</button><button onclick="tab('fee',this)">💰 ഫീസ്</button><button onclick="tab('monthly',this)">📅 മാസപ്പട്ടിക</button><button onclick="tab('records',this)">📋 രേഖകൾ</button><button onclick="tab('settings',this)">⚙️ ക്രമീകരണം</button></div>
+
+<section id="dash" class="page"><div class="card"><h2>മദ്റസ വിവരങ്ങൾ</h2><p id="info">ക്രമീകരണങ്ങളിൽ മദ്റസയുടെ വിവരങ്ങൾ ചേർക്കുക.</p></div><div class="kpis"><div class="kpi">കുട്ടികൾ<b id="ks">0</b></div><div class="kpi">ആകെ പിരിവ്<b id="kt">₹0</b></div><div class="kpi">ഈ മാസം<b id="km">₹0</b></div><div class="kpi">രേഖകൾ<b id="kr">0</b></div></div></section>
+
+<section id="students" class="page hidden"><div class="card"><h2>കുട്ടിയെ ചേർക്കുക</h2><input id="eid" type="hidden"><div class="grid">
+<label>ക്രമ നമ്പർ<input id="roll"></label><label>കുട്ടിയുടെ പേര്<input id="name"></label><label>ഇനീഷ്യൽ<input id="initial"></label><label>ക്ലാസ്<select id="cl"></select></label><label>അഡ്മിഷൻ നമ്പർ<input id="adm"></label><label>പിതാവ്<input id="father"></label><label>ജനന തീയതി<input id="dob" type="date"></label><label>അഡ്മിഷൻ തീയതി<input id="adate" type="date"></label><label>മാസ ഫീസ് ₹<input id="monthly" type="number"></label><label>മൊബൈൽ നമ്പർ<input id="phone" inputmode="tel"></label></div><div class="actions"><button onclick="saveStudent()">💾 സേവ്</button><button class="secondary" onclick="clearStudent()">പുതിയത്</button></div></div>
+<div class="card"><h2>കുട്ടിയെ കണ്ടെത്തുക</h2><input id="sq" placeholder="പേര് / ക്രമ നമ്പർ / അഡ്മിഷൻ നമ്പർ / മൊബൈൽ" oninput="students()"><div class="scroll"><table><thead><tr><th>സ്ഥിതി</th><th>ക്രമം</th><th>പേര്</th><th>ക്ലാസ്</th><th>അഡ്മിഷൻ</th><th>ഫീസ്</th><th>മൊബൈൽ</th><th>പ്രവർത്തനം</th></tr></thead><tbody id="srows"></tbody></table></div></div></section>
+
+<section id="fee" class="page hidden"><div class="card"><h2>ഫീസ് അടയ്ക്കുക</h2><div class="grid">
+<label>കുട്ടി<select id="child" onchange="childChanged()"></select></label><label>അധ്യയന വർഷം<input id="year" placeholder="2026-27" oninput="previewBreakdown()"></label><label>മാസം<select id="month" onchange="previewBreakdown()"></select></label><label>ക്ലാസ്<select id="fcl"></select></label>
+<label>ഫീസ് ഇനം<select id="type" onchange="previewBreakdown()"><option>കുടിശ്ശിക</option><option>തൻമാസം</option><option>അഡ്വാൻസ്</option><option>കുടിശ്ശിക + തൻമാസം</option><option>തൻമാസം + അഡ്വാൻസ്</option><option>കുടിശ്ശിക + തൻമാസം + അഡ്വാൻസ്</option></select></label>
+<label>അടച്ച സംഖ്യ ₹<input id="amount" type="number" oninput="previewBreakdown()"></label><label>തീയതി<input id="date" type="date"></label><label>സമയം<input id="time" type="time"></label><label class="full">കുറിപ്പ്<textarea id="note"></textarea></label></div>
+<div id="breakdown" class="breakdown">തുക നൽകിയാൽ തൻമാസം / അഡ്വാൻസ് / കുടിശ്ശിക എന്നിങ്ങനെ തുകയുടെ വിഭജനം ഇവിടെ കാണിക്കും.</div>
+<p class="notice">കുട്ടിയെ ഒരിക്കൽ ചേർത്താൽ അടുത്ത മാസങ്ങളിൽ കുട്ടിയെ വീണ്ടും ചേർക്കേണ്ടതില്ല. കുട്ടിയെ മാത്രം തിരഞ്ഞെടുക്കുക. <b>മാസം മാറുമ്പോൾ പുതിയ മാസത്തിന്റെ ബാക്കി/അഡ്വാൻസ് സ്ഥിതി സ്വയം കണക്കാക്കും.</b></p>
+<div class="actions"><button onclick="saveFee()">💾 ഫീസ് സേവ് ചെയ്യുക</button><button class="secondary" onclick="now()">ഇപ്പോൾ സമയം</button></div></div></section>
+
+<section id="monthly" class="page hidden"><div class="card"><h2>മാസംപ്രകാരമുള്ള പട്ടിക</h2><div class="grid no-print"><label>അധ്യയന വർഷം<input id="myear" placeholder="2026-27" oninput="monthly()"></label><label>മാസം<select id="mmonth" onchange="monthly()"></select></label><label>ക്ലാസ്<select id="mcl" onchange="monthly()"></select></label></div><div class="print-title"><h2 id="ptitle"></h2></div><div class="scroll"><table><thead><tr><th>സ്ഥിതി</th><th>ക്രമം</th><th>കുട്ടി</th><th>ക്ലാസ്</th><th>അഡ്മിഷൻ</th><th>മാസ ഫീസ്</th><th>അടച്ചത്/കവർ</th><th>ഇനം</th><th>തീയതി/സമയം</th></tr></thead><tbody id="mrows"></tbody></table></div><div class="actions no-print"><button onclick="monthly()">🔄 പട്ടിക പുതുക്കുക</button><button onclick="print()">🖨️ A4 PDF / പ്രിന്റ്</button></div></div></section>
+
+<section id="records" class="page hidden"><div class="card"><h2>എല്ലാ ഫീസ് രേഖകളും</h2><input id="rq" placeholder="പേര് / ക്രമ നമ്പർ / മൊബൈൽ / അഡ്മിഷൻ" oninput="records()"><div class="scroll"><table><thead><tr><th>തീയതി/സമയം</th><th>കുട്ടി</th><th>ക്ലാസ്</th><th>വർഷം/മാസം</th><th>ഇനം</th><th>തുക</th><th class="no-print">പ്രവർത്തനം</th></tr></thead><tbody id="rrows"></tbody></table></div><div class="actions no-print"><button onclick="print()">🖨️ A4 PDF / പ്രിന്റ്</button></div></div></section>
+
+<section id="settings" class="page hidden"><div class="card"><h2>🕌 മദ്റസയുടെ വിവരങ്ങൾ</h2><div class="grid"><label>മദ്റസയുടെ പേര്<input id="mname"></label><label>സ്ഥലം<input id="mplace"></label><label>അംഗീകരണ നമ്പർ<input id="approval"></label></div><div class="actions"><button onclick="saveMad()">💾 സേവ്</button></div></div>
+<div class="card"><h2>🔐 പാസ്‌വേഡ്</h2><div class="grid2"><label>പുതിയ പാസ്‌വേഡ്<input id="np" type="password"></label><label>വീണ്ടും<input id="np2" type="password"></label></div><div class="actions"><button onclick="changePass()">പാസ്‌വേഡ് മാറ്റുക</button><button class="danger" onclick="location.reload()">ലോഗ് ഔട്ട്</button></div><p>Edit / Delete പ്രവർത്തനങ്ങൾക്കും ഈ പാസ്‌വേഡ് ആവശ്യമാണ്.</p></div>
+<div class="card"><h2>💾 Backup / Restore</h2><div class="actions"><button onclick="backup()">⬇️ Backup</button><label class="secondary" style="padding:11px 13px;border-radius:9px">⬆️ Restore<input type="file" accept=".json" onchange="restore(event)" style="display:none"></label></div></div></section>
+</main></div><div id="toast" class="toast"></div>
+<script>
+let db=JSON.parse(localStorage.getItem("mvm_super")||"null")||{pass:"1234",mad:{name:"",place:"",approval:""},students:[],fees:[]};
+// Safe migration: keep all existing data even if older versions used missing/number fields.
+if(!db || typeof db!=="object") db={pass:"1234",mad:{name:"",place:"",approval:""},students:[],fees:[]};
+db.pass=String(db.pass||"1234");
+db.mad=Object.assign({name:"",place:"",approval:""},db.mad||{});
+db.students=Array.isArray(db.students)?db.students:[];
+db.fees=Array.isArray(db.fees)?db.fees:[];
+db.students=db.students.map((s,i)=>Object.assign({id:"legacy-"+i,roll:"",name:"",initial:"",cl:"1",adm:"",father:"",dob:"",adate:"",monthly:0,phone:""},s,{id:String(s.id||("legacy-"+i)),roll:String(s.roll??""),name:String(s.name??""),initial:String(s.initial??""),cl:String(s.cl??"1"),adm:String(s.adm??""),father:String(s.father??""),dob:String(s.dob??""),adate:String(s.adate??""),monthly:Number(s.monthly)||0,phone:String(s.phone??"")}));
+db.fees=db.fees.map((f,i)=>Object.assign({id:"fee-legacy-"+i,sid:"",year:currentAcademicYear(),month:["ജനുവരി","ഫെബ്രുവരി","മാർച്ച്","ഏപ്രിൽ","മേയ്","ജൂൺ","ജൂലൈ","ഓഗസ്റ്റ്","സെപ്റ്റംബർ","ഒക്ടോബർ","നവംബർ","ഡിസംബർ"][new Date().getMonth()],cl:"1",type:"തൻമാസം",amount:0,date:"",time:"",note:""},f,{id:String(f.id||("fee-legacy-"+i)),sid:String(f.sid??""),year:String(f.year??currentAcademicYear()),month:String(f.month??months[new Date().getMonth()]),cl:String(f.cl??"1"),type:String(f.type??"തൻമാസം"),amount:Number(f.amount)||0,date:String(f.date??""),time:String(f.time??""),note:String(f.note??"")}));
+const months=["ജനുവരി","ഫെബ്രുവരി","മാർച്ച്","ഏപ്രിൽ","മേയ്","ജൂൺ","ജൂലൈ","ഓഗസ്റ്റ്","സെപ്റ്റംബർ","ഒക്ടോബർ","നവംബർ","ഡിസംബർ"],cls=Array.from({length:12},(_,i)=>""+(i+1)), $=id=>document.getElementById(id);
+const esc=x=>String(x??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m])), money=x=>Number(x||0).toLocaleString("en-IN",{maximumFractionDigits:2});
+function uid(){return (typeof crypto!=="undefined"&&crypto.randomUUID)?crypto.randomUUID():"id-"+Date.now()+"-"+Math.random().toString(36).slice(2)}
+function save(){localStorage.setItem("mvm_super",JSON.stringify(db))}
+function toast(x){$("toast").textContent=x;$("toast").style.display="block";setTimeout(()=>$("toast").style.display="none",2400)}
+function login(){if($("lp").value===db.pass){$("login").classList.add("hidden");$("app").classList.remove("hidden");init()}else toast("തെറ്റായ പാസ്‌വേഡ്")}
+$("lp").onkeydown=e=>{if(e.key==="Enter")login()}
+function fill(id,a){$(id).innerHTML=a.map(x=>`<option>${x}</option>`).join("")}
+function currentAcademicYear(d=new Date()){let y=d.getFullYear(),m=d.getMonth();let start=m>=5?y:y-1;return start+"-"+String((start+1)%100).padStart(2,"0")}
+function academicKey(year,month){
+  let m=months.indexOf(month); if(m<0)m=0;
+  let mt=String(year||"").match(/(\d{4})/); let start=mt?+mt[1]:new Date().getFullYear();
+  let calYear=m>=5?start:start+1;
+  return calYear*12+m;
+}
+function feeKey(f){return academicKey(f.year,f.month)}
+function parseKey(k){return {y:Math.floor(k/12),m:k%12}}
+function monthNameFromKey(k){return months[parseKey(k).m]}
+function monthText(k){let p=parseKey(k);return p.y+"-"+String(p.m+1).padStart(2,"0")}
+function normalizeAlloc(f,s){
+  if(f.alloc && typeof f.alloc==="object") return {arrears:+f.alloc.arrears||0,current:+f.alloc.current||0,advance:+f.alloc.advance||0};
+  let amount=+f.amount||0, mf=+s.monthly||0, t=f.type||"";
+  let a={arrears:0,current:0,advance:0};
+  if(t==="അഡ്വാൻസ്"){a.advance=amount}
+  else if(t==="കുടിശ്ശിക"){a.arrears=amount}
+  else if(t.includes("കുടിശ്ശിക") && t.includes("തൻമാസം")){
+    let arrearsDue=outstandingArrearsBefore(s,feeKey(f));
+    a.arrears=Math.min(amount,arrearsDue); amount-=a.arrears;
+    a.current=Math.min(amount,mf); a.advance=Math.max(0,amount-a.current)
+  }else if(t.includes("തൻമാസം")){
+    a.current=Math.min(amount,mf); a.advance=Math.max(0,amount-a.current)
+  }else{a.advance=amount}
+  return a
+}
+function paymentsFor(s, maxKey=Infinity){
+  return db.fees.filter(f=>f.sid===s.id && feeKey(f)<=maxKey).sort((a,b)=>feeKey(a)-feeKey(b) || String(a.date).localeCompare(String(b.date)) || String(a.time).localeCompare(String(b.time)))
+}
+function firstRelevantKey(s,targetKey){
+  let admKey=Infinity;
+  if(s.adate){let d=new Date(s.adate+"T00:00:00");if(!isNaN(d)){let ay=d.getFullYear();let am=d.getMonth();admKey=ay*12+am}}
+  let first=targetKey;
+  for(let f of db.fees.filter(x=>x.sid===s.id)){first=Math.min(first,feeKey(f))}
+  return Math.min(first,admKey===Infinity?targetKey:admKey);
+}
+function outstandingArrearsBefore(s,targetKey){
+  let mf=+s.monthly||0;if(!(mf>0))return 0;
+  let start=firstRelevantKey(s,targetKey), bal=0, advance=0;
+  if(start>targetKey)return 0;
+  let payMap=new Map();
+  for(let f of paymentsFor(s,targetKey-1)){let k=feeKey(f),a=normalizeAlloc(f,s);if(!payMap.has(k))payMap.set(k,[]);payMap.get(k).push(a)}
+  for(let k=start;k<targetKey;k++){
+    let list=payMap.get(k)||[];
+    let due=mf;
+    let use=Math.min(due,advance);due-=use;advance-=use;
+    let cur=list.reduce((n,a)=>n+a.current,0);
+    use=Math.min(due,cur);due-=use;
+    bal+=due;
+    let ar=list.reduce((n,a)=>n+a.arrears,0);
+    bal=Math.max(0,bal-ar);
+    advance+=list.reduce((n,a)=>n+a.advance,0);
+  }
+  return Math.max(0,bal);
+}
+function calcAlloc(s,year,month,type,amount){
+  let mf=+s.monthly||0, rem=Math.max(0,+amount||0), a={arrears:0,current:0,advance:0};
+  let target=academicKey(year,month), arrears=outstandingArrearsBefore(s,target);
+  if(type.includes("കുടിശ്ശിക")){a.arrears=Math.min(rem,arrears);rem-=a.arrears}
+  if(type.includes("തൻമാസം")){a.current=Math.min(rem,mf);rem-=a.current}
+  if(rem>0)a.advance=rem;
+  return a;
+}
+function monthCoverage(s,year,month){
+  let target=academicKey(year,month), mf=+s.monthly||0;if(!(mf>0))return {covered:false,current:0,fromAdvance:0,total:0,source:""};
+  let start=firstRelevantKey(s,target), advance=0, targetCurrent=0, targetAdvance=0;
+  let payMap=new Map();
+  for(let f of paymentsFor(s,target)){let k=feeKey(f),a=normalizeAlloc(f,s);if(!payMap.has(k))payMap.set(k,[]);payMap.get(k).push(a)}
+  if(start>target)return {covered:false,current:0,fromAdvance:0,total:0,source:""};
+  for(let k=start;k<=target;k++){
+    let list=payMap.get(k)||[];
+    let due=mf;
+    let use=Math.min(due,advance);due-=use;advance-=use;
+    let cur=list.reduce((n,a)=>n+a.current,0);
+    let direct=Math.min(due,cur);due-=direct;
+    if(k===target){targetCurrent=direct;targetAdvance=use}
+    let arrearsPaid=list.reduce((n,a)=>n+a.arrears,0);
+    // Arrears payments settle earlier balances; they do not make the target month green by themselves.
+    advance+=list.reduce((n,a)=>n+a.advance,0);
+  }
+  let total=targetCurrent+targetAdvance;
+  return {covered:total>=mf-0.0001,current:targetCurrent,fromAdvance:targetAdvance,total,source:targetAdvance>=mf?"അഡ്വാൻസ് വഴി":targetCurrent>=mf?"തൻമാസം വഴി":(total>0?"ഭാഗികമായി":"")};
+}
+function statusHtml(s,y,m){
+  let c=monthCoverage(s,y,m);
+  return c.covered?`<span class="ok">✓ അടച്ചു</span>`:`<span class="no">✗ ബാക്കി</span>`;
+}
+function loadDefaults(){
+  $("year").value=currentAcademicYear();
+  let d=new Date(),cm=months[d.getMonth()];$("month").value=cm;$("myear").value=currentAcademicYear();$("mmonth").value=cm;
+}
+function init(){fill("cl",cls);fill("fcl",cls);fill("month",months);fill("mmonth",["എല്ലാം",...months]);fill("mcl",["എല്ലാം",...cls]);now();loadDefaults();load();render();previewBreakdown()}
+function now(){let d=new Date();$("date").value=d.toISOString().slice(0,10);$("time").value=d.toTimeString().slice(0,5)}
+function tab(id,b){document.querySelectorAll(".page").forEach(x=>x.classList.add("hidden"));$(id).classList.remove("hidden");document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("active"));b.classList.add("active");render()}
+function load(){$("mname").value=db.mad.name;$("mplace").value=db.mad.place;$("approval").value=db.mad.approval;$("title").textContent="🕌 "+(db.mad.name||"മദ്റസ വരിസംഖ്യ മാനേജർ");$("sub").textContent=db.mad.place||"";$("info").textContent=(db.mad.name||"മദ്റസ")+" • "+(db.mad.place||"സ്ഥലം ചേർത്തിട്ടില്ല")+" • അംഗീകരണ നമ്പർ: "+(db.mad.approval||"-")}
+function saveMad(){db.mad={name:$("mname").value.trim(),place:$("mplace").value.trim(),approval:$("approval").value.trim()};save();load();toast("മദ്റസ വിവരങ്ങൾ സേവ് ചെയ്തു")}
+function clearStudent(){["eid","roll","name","initial","adm","father","dob","adate","monthly","phone"].forEach(x=>$(x).value="")}
+function saveStudent(){if(!$("name").value.trim())return toast("പേര് നൽകുക");let o={id:$("eid").value||uid(),roll:$("roll").value.trim(),name:$("name").value.trim(),initial:$("initial").value.trim(),cl:$("cl").value,adm:$("adm").value.trim(),father:$("father").value.trim(),dob:$("dob").value,adate:$("adate").value,monthly:+$("monthly").value||0,phone:$("phone").value.replace(/\D/g,"")},i=db.students.findIndex(s=>s.id===o.id);i>=0?db.students[i]=o:db.students.push(o);save();clearStudent();render();toast("കുട്ടിയുടെ വിവരങ്ങൾ സേവ് ചെയ്തു")}
+function pw(){let p=prompt("Edit / Delete ചെയ്യാൻ പാസ്‌വേഡ് നൽകുക");if(p!==db.pass){toast("പാസ്‌വേഡ് തെറ്റാണ്");return false}return true}
+function editS(id){if(!pw())return;let s=db.students.find(x=>x.id===id);$("eid").value=s.id;$("roll").value=s.roll;$("name").value=s.name;$("initial").value=s.initial;$("cl").value=s.cl;$("adm").value=s.adm;$("father").value=s.father;$("dob").value=s.dob;$("adate").value=s.adate;$("monthly").value=s.monthly;$("phone").value=s.phone;tab("students",document.querySelectorAll(".tabs button")[1])}
+function delS(id){if(!pw())return;if(confirm("കുട്ടിയെയും ഫീസ് രേഖകളെയും Delete ചെയ്യണോ?")){db.students=db.students.filter(s=>s.id!==id);db.fees=db.fees.filter(f=>f.sid!==id);save();render()}}
+function studentOptions(){let old=$("child").value;let list=db.students.slice().sort((a,b)=>String(a.roll||"").localeCompare(String(b.roll||""),undefined,{numeric:true,sensitivity:"base"}));$("child").innerHTML="<option value=''>കുട്ടിയെ തിരഞ്ഞെടുക്കുക</option>"+list.map(s=>`<option value="${esc(s.id)}">${esc(s.roll)} — ${esc(s.name)} ${esc(s.initial)} — ക്ലാസ് ${esc(s.cl)}</option>`).join("");if(old)$("child").value=old}
+function childChanged(){let s=db.students.find(x=>x.id===$("child").value);if(s)$("fcl").value=s.cl;previewBreakdown()}
+function previewBreakdown(){
+  let s=db.students.find(x=>x.id===$("child").value), amount=+$("amount").value||0;
+  if(!s||!amount){$("breakdown").innerHTML="തുക നൽകിയാൽ തൻമാസം / അഡ്വാൻസ് / കുടിശ്ശിക എന്നിങ്ങനെ തുകയുടെ വിഭജനം ഇവിടെ കാണിക്കും.";return}
+  let a=calcAlloc(s,$("year").value.trim()||currentAcademicYear(),$("month").value,$("type").value,amount);
+  $("breakdown").innerHTML=`<b>ഫീസ് വിഭജനം:</b> ${a.current?`തൻമാസം ₹${money(a.current)} &nbsp; `:""}${a.advance?`അഡ്വാൻസ് ₹${money(a.advance)} &nbsp; `:""}${a.arrears?`കുടിശ്ശിക ₹${money(a.arrears)}`:""}${!a.current&&!a.advance&&!a.arrears?" — ":""}<span class="small">(സേവ് ചെയ്യുമ്പോൾ ഇതേ വിഭജനം രേഖപ്പെടുത്തും)</span>`;
+}
+function saveFee(){
+  let sid=$("child").value;if(!sid)return toast("കുട്ടിയെ തിരഞ്ഞെടുക്കുക");
+  let s=db.students.find(x=>x.id===sid),amount=+$("amount").value;if(!(amount>0))return toast("തുക നൽകുക");
+  let year=$("year").value.trim()||currentAcademicYear(),month=$("month").value,type=$("type").value;
+  let alloc=calcAlloc(s,year,month,type,amount);
+  let f={id:uid(),sid,year,month,cl:$("fcl").value,type,amount,date:$("date").value,time:$("time").value,note:$("note").value,alloc};
+  db.fees.push(f);save();render();toast("ഫീസ് സേവ് ചെയ്തു");voice(s,f,alloc);
+  setTimeout(()=>{if(s.phone&&confirm("രക്ഷിതാവിന് WhatsApp തുറക്കണോ?"))wa(f,s)},500);
+  $("amount").value="";$("note").value="";previewBreakdown();
+}
+function voice(s,f,a){if("speechSynthesis"in window){speechSynthesis.cancel();let parts=[];if(a.current)parts.push(`തൻമാസം ${a.current} രൂപ`);if(a.advance)parts.push(`അഡ്വാൻസ് ${a.advance} രൂപ`);if(a.arrears)parts.push(`കുടിശ്ശിക ${a.arrears} രൂപ`);let u=new SpeechSynthesisUtterance(`${s.name} എന്ന കുട്ടി മൊത്തം ${f.amount} രൂപ ഫീസായി അടച്ചു. ${parts.join(", ")}.`);u.lang="ml-IN";u.rate=.9;speechSynthesis.speak(u)}}
+function wa(f,s){
+  let a=normalizeAlloc(f,s), lines=[];
+  if(a.current)lines.push(`*തൻമാസം:* ₹${money(a.current)}`);
+  if(a.advance)lines.push(`*അഡ്വാൻസ്:* ₹${money(a.advance)}`);
+  if(a.arrears)lines.push(`*കുടിശ്ശിക:* ₹${money(a.arrears)}`);
+  let text=[
+    `*${db.mad.name||"മദ്റസ"}*`,
+    `*സ്ഥലം:* ${db.mad.place||""}`,
+    "",
+    `*${s.name} ${(s.initial||"").trim()}* എന്ന കുട്ടി *ക്ലാസ് ${f.cl}*-ൽ പഠിക്കുന്നതാണ്.`,
+    `*ആകെ അടച്ച തുക:* ₹${money(f.amount)}`,
+    ...lines,
+    "",
+    `*അധ്യയന വർഷം:* ${f.year}`,
+    `*മാസം:* ${f.month}`,
+    `*തീയതി:* ${f.date}`,
+    `*സമയം:* ${f.time}`,
+    "",
+    "تقبل الله وجزاكم الله خيرا"
+  ].join("\n");
+  let p=s.phone.replace(/\D/g,""); if(p.length===10)p="91"+p;
+  window.open("https://wa.me/"+p+"?text="+encodeURIComponent(text),"_blank")
+}
+function paid(s,y,m){let c=monthCoverage(s,y,m);return c.covered?c:null}
+function students(){
+  let q=String($("sq").value||"").toLowerCase(),a=db.students.filter(s=>(String(s.name||"")+" "+String(s.roll||"")+" "+String(s.adm||"")+" "+String(s.phone||"")).toLowerCase().includes(q));
+  let d=new Date(),y=currentAcademicYear(d),m=months[d.getMonth()];
+  $("srows").innerHTML=a.map(s=>{let c=paid(s,y,m);return`<tr><td>${statusHtml(s,y,m)}</td><td>${esc(s.roll)}</td><td>${esc(s.name)} ${esc(s.initial)}</td><td>${s.cl}</td><td>${esc(s.adm||"-")}</td><td>₹${money(s.monthly)}</td><td>${esc(s.phone||"-")}</td><td><button onclick="editS('${s.id}')">Edit</button> <button class="danger" onclick="delS('${s.id}')">Delete</button></td></tr>`}).join("")||"<tr><td colspan=8>കുട്ടികൾ ഇല്ല.</td></tr>"
+}
+function monthly(){
+  let y=String($("myear").value||currentAcademicYear()).trim()||currentAcademicYear();
+  let m=$("mmonth").value||months[new Date().getMonth()];
+  let c=$("mcl").value||"എല്ലാം";
+  if(m==="എല്ലാം")m=months[new Date().getMonth()];
+  let a=db.students.filter(s=>c==="എല്ലാം"||String(s.cl)===String(c)).slice().sort((x,z)=>String(x.roll||"").localeCompare(String(z.roll||""),undefined,{numeric:true,sensitivity:"base"}));
+  $("ptitle").textContent=`${db.mad.name||"മദ്റസ"} — ${y} — ${m}`;
+  if(!a.length){
+    $("mrows").innerHTML='<tr><td colspan="9"><div class="notice" style="text-align:center">ഈ മാസപ്പട്ടികയിൽ കാണിക്കാൻ കുട്ടികളുടെ വിവരങ്ങൾ ലഭ്യമല്ല. ആദ്യം <b>കുട്ടികൾ</b> വിഭാഗത്തിൽ കുട്ടികളെ ചേർക്കുക.</div></td></tr>';
+    return;
+  }
+  $("mrows").innerHTML=a.map(s=>{
+    let cov=monthCoverage(s,y,m);
+    let target=academicKey(y,m);
+    let fs=db.fees.filter(x=>String(x.sid)===String(s.id)&&feeKey(x)===target).slice().sort((x,z)=>String((z.date||"")+" "+(z.time||"")).localeCompare(String((x.date||"")+" "+(x.time||""))));
+    let f=fs[0];
+    let coveredText=cov.covered?`₹${money(cov.total)}${cov.fromAdvance?" (അഡ്വാൻസ്)":""}`:(cov.total?`₹${money(cov.total)} (ഭാഗികം)`:"₹0");
+    let item=f?esc(f.type):(cov.fromAdvance?"അഡ്വാൻസ് വഴി":"—");
+    let dt=f?`${esc(f.date||"")} ${esc(f.time||"")}`:"—";
+    return `<tr><td>${statusHtml(s,y,m)}</td><td>${esc(s.roll)}</td><td>${esc(s.name)} ${esc(s.initial)}</td><td>${esc(s.cl)}</td><td>${esc(s.adm||"-")}</td><td>₹${money(s.monthly)}</td><td>${coveredText}</td><td>${item}</td><td>${dt}</td></tr>`;
+  }).join("");
+}
+function records(){
+  let q=String($("rq").value||"").toLowerCase();
+  let a=db.fees.filter(f=>{let st=db.students.find(x=>String(x.id)===String(f.sid))||{};return(String(st.name||"")+" "+String(st.roll||"")+" "+String(st.adm||"")+" "+String(st.phone||"")).toLowerCase().includes(q)}).slice().reverse();
+  $("rrows").innerHTML=a.map(f=>{
+    let st=db.students.find(x=>String(x.id)===String(f.sid))||{};
+    let aa=normalizeAlloc(f,st);
+    let breakdown=[aa.current?`തൻമാസം ₹${money(aa.current)}`:"",aa.advance?`അഡ്വാൻസ് ₹${money(aa.advance)}`:"",aa.arrears?`കുടിശ്ശിക ₹${money(aa.arrears)}`:""].filter(Boolean).join(" • ");
+    return `<tr><td>${esc(f.date||"")}<br>${esc(f.time||"")}</td><td>${esc(st.name||"Deleted")}</td><td>${esc(f.cl||st.cl||"")}</td><td>${esc(f.year||"")}<br>${esc(f.month||"")}</td><td>${esc(f.type||"")}<br><span class="small">${esc(breakdown)}</span></td><td>₹${money(f.amount)}</td><td class="no-print"><button onclick="sendWhatsAppById('${esc(f.id)}')">WhatsApp</button> <button class="danger" onclick="delF('${esc(f.id)}')">Delete</button></td></tr>`;
+  }).join("")||"<tr><td colspan=7>രേഖകൾ ഇല്ല.</td></tr>";
+}
+function sendWhatsAppById(id){let f=db.fees.find(x=>String(x.id)===String(id));if(!f)return toast("രേഖ കണ്ടെത്താനായില്ല");let st=db.students.find(x=>String(x.id)===String(f.sid));if(!st)return toast("കുട്ടിയുടെ വിവരങ്ങൾ കണ്ടെത്താനായില്ല");wa(f,st)}
+function delF(id){if(!pw())return;if(confirm("ഫീസ് രേഖ Delete ചെയ്യണോ?")){db.fees=db.fees.filter(f=>f.id!==id);save();render()}}
+function render(){load();studentOptions();students();monthly();records();let total=db.fees.reduce((a,f)=>a+f.amount,0),d=new Date(),y=currentAcademicYear(d),m=months[d.getMonth()];$("ks").textContent=db.students.length;$("kt").textContent="₹"+money(total);$("km").textContent="₹"+money(db.fees.filter(f=>f.year===y&&f.month===m).reduce((a,f)=>a+f.amount,0));$("kr").textContent=db.fees.length}
+function changePass(){if(!$("np").value||$("np").value!==$("np2").value)return toast("പാസ്‌വേഡ് ഒത്തുപോകുന്നില്ല");db.pass=$("np").value;save();$("np").value=$("np2").value="";toast("പാസ്‌വേഡ് മാറ്റി")}
+function backup(){let b=new Blob([JSON.stringify(db,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="madrasa-fee-backup.json";a.click()}
+function restore(e){let r=new FileReader;r.onload=()=>{try{let x=JSON.parse(r.result);if(!x.students||!x.fees||!x.mad)throw 0;db=x;save();init();toast("Restore വിജയിച്ചു")}catch{toast("Backup ശരിയല്ല")}};r.readAsText(e.target.files[0])}
+</script></body></html>
